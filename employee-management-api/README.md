@@ -1,35 +1,72 @@
-# Employee Management API
+# 🚀 Employee Management API
 
-A RESTful Employee Management API built using **Java, Spring Boot, Spring Data JPA, and MySQL**. The application provides CRUD operations for managing employee records and is integrated with **Swagger/OpenAPI** for API documentation and **Docker/Docker Compose** for containerization.
+A production-style **RESTful Employee Management API** built using **Java, Spring Boot, Spring Data JPA, and MySQL**.
 
-## 🚀 Features
+The application provides complete CRUD operations for employee management and includes **Swagger/OpenAPI documentation**, **Docker containerization**, and **Docker Compose** for running the Spring Boot application with MySQL.
 
-* Create new employees
-* Retrieve all employees
-* Retrieve employee by ID
-* Update employee details
-* Delete employees
-* RESTful API architecture
-* MySQL database integration
-* Spring Data JPA and Hibernate
-* Swagger/OpenAPI documentation
-* Docker containerization
-* Docker Compose support
+---
+
+## ✨ Features
+
+* ✅ Create employee
+* ✅ Get all employees
+* ✅ Get employee by ID
+* ✅ Update employee details
+* ✅ Delete employee
+* ✅ RESTful API architecture
+* ✅ Request validation
+* ✅ Global exception handling
+* ✅ MySQL database integration
+* ✅ Spring Data JPA / Hibernate
+* ✅ Swagger/OpenAPI documentation
+* ✅ Docker containerization
+* ✅ Docker Compose
+* ✅ Environment-based database credentials
+
+---
 
 ## 🛠️ Tech Stack
 
-| Technology        | Purpose                     |
-| ----------------- | --------------------------- |
-| Java              | Programming Language        |
-| Spring Boot       | Backend Framework           |
-| Spring Data JPA   | Database Access             |
-| Hibernate         | ORM                         |
-| MySQL             | Relational Database         |
-| Maven             | Build Tool                  |
-| Swagger / OpenAPI | API Documentation           |
-| Docker            | Containerization            |
-| Docker Compose    | Multi-container Environment |
-| Git & GitHub      | Version Control             |
+| Technology            | Purpose                     |
+| --------------------- | --------------------------- |
+| **Java 17**           | Programming Language        |
+| **Spring Boot**       | Backend Framework           |
+| **Spring Data JPA**   | Database Access             |
+| **Hibernate**         | ORM                         |
+| **MySQL 8**           | Relational Database         |
+| **Maven**             | Build Tool                  |
+| **Swagger / OpenAPI** | API Documentation           |
+| **Docker**            | Containerization            |
+| **Docker Compose**    | Multi-container Environment |
+| **Git & GitHub**      | Version Control             |
+
+---
+
+## 🏗️ Architecture
+
+```text
+                    ┌─────────────────────┐
+                    │      Client         │
+                    │ Postman / Swagger   │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │   Spring Boot API   │
+                    │                     │
+                    │ EmployeeController  │
+                    │ EmployeeService     │
+                    │ EmployeeRepository  │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │       MySQL         │
+                    │    employee_db      │
+                    └─────────────────────┘
+```
+
+---
 
 ## 📂 Project Structure
 
@@ -39,39 +76,60 @@ employee-management-api/
 ├── src/
 │   ├── main/
 │   │   ├── java/
-│   │   │   └── ...
+│   │   │   └── employee_management_api/
+│   │   │       ├── config/
+│   │   │       ├── controller/
+│   │   │       ├── entity/
+│   │   │       ├── exception/
+│   │   │       ├── repository/
+│   │   │       └── service/
+│   │   │
 │   │   └── resources/
 │   │       └── application.properties
 │   │
+│   ├── screenshots/
+│   │   ├── swagger.png
+│   │   └── docker.png
+│   │
 │   └── test/
-│
-├── screenshots/
-│   ├── swagger.png
-│   └── docker.png
 │
 ├── Dockerfile
 ├── docker-compose.yml
 ├── pom.xml
+├── .gitignore
 └── README.md
 ```
 
-## 🔗 API Endpoints
+---
 
-| Method | Endpoint          | Description           |
-| ------ | ----------------- | --------------------- |
-| GET    | `/employees`      | Get all employees     |
-| GET    | `/employees/{id}` | Get employee by ID    |
-| POST   | `/employees`      | Create a new employee |
-| PUT    | `/employees/{id}` | Update employee       |
-| DELETE | `/employees/{id}` | Delete employee       |
+## 🔗 REST API Endpoints
 
-> Update the endpoint paths above if your controller uses a different base URL.
+| Method   | Endpoint          | Description           |
+| -------- | ----------------- | --------------------- |
+| `POST`   | `/employees`      | Create a new employee |
+| `GET`    | `/employees`      | Get all employees     |
+| `GET`    | `/employees/{id}` | Get employee by ID    |
+| `PUT`    | `/employees/{id}` | Update employee       |
+| `DELETE` | `/employees/{id}` | Delete employee       |
 
-## 📖 Swagger API Documentation
+### Example Employee JSON
 
-Swagger/OpenAPI is integrated into the project to provide interactive API documentation and testing.
+```json
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "department": "IT",
+  "salary": 50000
+}
+```
 
-When the application is running, open:
+---
+
+## 📖 Swagger / OpenAPI
+
+Swagger UI provides interactive API documentation and allows the REST endpoints to be tested directly from the browser.
+
+When the application is running:
 
 ```text
 http://localhost:8080/swagger-ui/index.html
@@ -79,30 +137,60 @@ http://localhost:8080/swagger-ui/index.html
 
 ### Swagger UI
 
+---
+
 ## 🗄️ Database
 
-The application uses **MySQL** as the relational database and **Spring Data JPA/Hibernate** for database operations.
+The application uses **MySQL** with **Spring Data JPA and Hibernate**.
 
-Database configuration is maintained in:
+Database:
+
+```text
+Database: employee_db
+```
+
+Database configuration is stored in:
 
 ```text
 src/main/resources/application.properties
 ```
 
-When running with Docker Compose, the Spring Boot application connects to the MySQL container through the Docker network.
+### 🔐 Environment Variables
 
-## 💻 Run Locally
+Database credentials are **not hardcoded** in the application configuration.
 
-### Prerequisites
+The application uses:
+
+```properties
+spring.datasource.username=${MYSQL_USERNAME}
+spring.datasource.password=${MYSQL_PASSWORD}
+```
+
+For local development, create a `.env` file:
+
+```env
+MYSQL_USERNAME=root
+MYSQL_PASSWORD=your_password
+```
+
+> ⚠️ `.env` is excluded from Git using `.gitignore`. Never commit database passwords or other secrets to GitHub.
+
+---
+
+# 💻 Run Locally
+
+## Prerequisites
 
 Make sure the following are installed:
 
-* Java 17 or compatible version
+* Java 17+
 * Maven
 * MySQL
 * Git
 
-### 1. Clone the Repository
+---
+
+## 1. Clone the Repository
 
 ```bash
 git clone https://github.com/prateek-dev26/employee-management-api.git
@@ -112,7 +200,9 @@ git clone https://github.com/prateek-dev26/employee-management-api.git
 cd employee-management-api
 ```
 
-### 2. Create the Database
+---
+
+## 2. Configure Database
 
 Create the MySQL database:
 
@@ -120,19 +210,26 @@ Create the MySQL database:
 CREATE DATABASE employee_db;
 ```
 
-Configure your MySQL username, password, and database settings in:
+Set your database credentials using environment variables.
+
+Example:
 
 ```text
-src/main/resources/application.properties
+MYSQL_USERNAME=root
+MYSQL_PASSWORD=your_password
 ```
 
-### 3. Build the Application
+---
+
+## 3. Build the Application
 
 ```bash
 mvn clean package
 ```
 
-### 4. Run the Application
+---
+
+## 4. Run the Application
 
 ```bash
 mvn spring-boot:run
@@ -150,15 +247,17 @@ Swagger UI:
 http://localhost:8080/swagger-ui/index.html
 ```
 
-## 🐳 Run Using Docker
+---
 
-### Build Docker Image
+# 🐳 Run Using Docker
+
+## Build Docker Image
 
 ```bash
 docker build -t employee-management-api .
 ```
 
-### Run Docker Container
+## Run Docker Container
 
 ```bash
 docker run -p 8080:8080 employee-management-api
@@ -170,70 +269,93 @@ The API will be available at:
 http://localhost:8080
 ```
 
-## 🐳 Docker Compose
+---
 
-The project supports Docker Compose for running the **Spring Boot application and MySQL database together**.
+# 🐳 Docker Compose
 
-### Start Services
+Docker Compose runs the **Spring Boot application and MySQL database together**.
+
+## 1. Create `.env`
+
+Create a `.env` file in the project root:
+
+```env
+MYSQL_USERNAME=root
+MYSQL_PASSWORD=your_password
+```
+
+> Do not commit this file to GitHub.
+
+## 2. Start Services
 
 ```bash
 docker compose up -d
 ```
 
-### Check Running Containers
+## 3. Check Containers
 
 ```bash
 docker compose ps
 ```
 
-### View Logs
+## 4. View Application Logs
 
 ```bash
 docker compose logs -f employee-management-api
 ```
 
-### Rebuild and Start
+## 5. Rebuild and Start
 
 ```bash
 docker compose up -d --build
 ```
 
-### Stop Services
+## 6. Stop Services
 
 ```bash
 docker compose down
 ```
 
+---
+
 ## 📸 Docker Containers
 
-The application and MySQL database are successfully running using Docker Compose.
+The Spring Boot application and MySQL database can be run together using Docker Compose.
+
+---
 
 ## 📸 Swagger UI
 
 Interactive API documentation provided through Swagger/OpenAPI.
 
+---
+
 ## 🔮 Future Enhancements
 
-* Add Spring Security
-* Implement JWT-based authentication
-* Add role-based authorization
-* Add pagination and sorting
-* Add employee search and filtering
-* Add unit and integration testing
-* Add CI/CD pipeline using Jenkins or GitHub Actions
-* Deploy the application to AWS
+* 🔐 Spring Security
+* 🔑 JWT-based authentication
+* 👥 Role-based authorization
+* 📄 Pagination and sorting
+* 🔎 Employee search and filtering
+* 🧪 More unit and integration tests
+* 🔄 CI/CD pipeline using Jenkins or GitHub Actions
+* ☁️ AWS deployment
+
+---
 
 ## 👨‍💻 Author
 
-**Prateek Vishwakarma**
+### Prateek Vishwakarma
 
-Java Full Stack Developer | DevOps Enthusiast
+**Java Full Stack Developer | DevOps Engineer**
 
-**GitHub:**
+GitHub:
 https://github.com/prateek-dev26
 
-**LinkedIn:**
-https://www.linkedin.com/in/prateekvishw
+LinkedIn:
+https://www.linkedin.com/in/prateekvishw-dev
+
+---
 
 ## ⭐ Support
 
